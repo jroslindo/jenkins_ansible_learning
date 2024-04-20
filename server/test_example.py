@@ -1,9 +1,9 @@
-import requests
 import unittest
 import threading
 import time
 import subprocess
 import sys
+import requests
 
 def get_request(url):
     response = requests.get(url)
@@ -22,7 +22,7 @@ class TestGetRequest(unittest.TestCase):
 
 
 def threadingApplication():
-    subprocess.run("python server\__main__.py", shell=True)
+    subprocess.run("$HOME/.local/bin/poetry run python __main__.py", shell=True)
     print("process finished")
 
 
