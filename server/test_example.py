@@ -22,7 +22,7 @@ class TestGetRequest(unittest.TestCase):
 
 
 def threadingApplication():
-    subprocess.run("$HOME/.local/bin/poetry run python __main__.py", shell=True)
+    subprocess.run("$HOME/.local/bin/poetry run python __main__.py true", shell=True)
     print("process finished")
 
 
