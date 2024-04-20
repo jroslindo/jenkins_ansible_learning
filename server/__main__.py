@@ -14,12 +14,14 @@ def hello_world():
 
 def stop_flask():
     time.sleep(10)
+    print("timesup")
     os.kill(os.getpid(), signal.SIGINT)
 
 #TODO: PASS DEBUG FLAG AS ARGUMENT
 if __name__ == '__main__':
     debug = False
     if sys.argv[1]:
+        print("starting, killing process")
         t = threading.Thread(target=stop_flask)
         t.start()
         debug = True
