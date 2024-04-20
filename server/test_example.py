@@ -4,6 +4,7 @@ import time
 import subprocess
 import sys
 import requests
+import signal
 
 def get_request(url):
     response = requests.get(url)
@@ -22,8 +23,10 @@ class TestGetRequest(unittest.TestCase):
 
 
 def threadingApplication():
-    subprocess.run("$HOME/.local/bin/poetry run python __main__.py true", shell=True)
-    print("process finished")
+    process = subprocess.run("$HOME/.local/bin/poetry run python3 __main__.py true", shell=True)
+    time.sleep(10)
+    process.send_signal(signal.SIGINT)
+    print("finished!!!")
 
 
 if __name__ == '__main__':
@@ -31,5 +34,3 @@ if __name__ == '__main__':
     thread.start()
     time.sleep(5)
     unittest.main()
-    print("closing")
-    sys.exit()
