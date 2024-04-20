@@ -14,7 +14,7 @@ def hello_world():
 
 def stop_flask(pid):
     print("starting, killing!!!")
-    time.sleep(10)
+    # time.sleep(10)
     print("pid", pid)
     os.kill(pid, signal.SIGINT)
 
