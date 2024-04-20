@@ -36,7 +36,7 @@ pipeline {
         stage('Test Application') {
             steps {
                 dir('jenkins_ansible_learning/server') {
-                    sh '$HOME/.local/bin/poetry install'
+                    sh '$HOME/.local/bin/poetry install --no-root'
                     sh pythonTestCommand
                 }
             }
