@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         githubRepo = 'https://github.com/jroslindo/jenkins_ansible_learning'
-        pythonTestCommand = '$HOME/.local/bin/poetry run python test_example.py'
+        pythonTestCommand = '$HOME/.local/bin/poetry run python3 test_example.py'
         ansiblePlaybook = '/code/playbook.yml'
         PATH = "$HOME/.poetry/bin:$PATH"
     }
