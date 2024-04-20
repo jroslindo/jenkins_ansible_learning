@@ -2,35 +2,45 @@ pipeline {
     agent any
 
     environment {
-        githubRepo = 'https://github.com/jroslindo/jenkins_ansible_learning.git'
-        pythonTestCommand = 'python test_example.py'
+        githubRepo = 'https://github.com/jroslindo/jenkins_ansible_learning'
+        pythonTestCommand = 'python3 --version'
         ansiblePlaybook = '/code/playbook.yml'
+        PATH = "$HOME/.poetry/bin:$PATH"
     }
 
     stages {
-        stage('Check for updates') {
+        stage('Check for updates / clone repo') {
             steps {
                 script {
-                    def latestCommit = sh(script: "git ls-remote ${githubRepo} HEAD | awk '{ print \$1 }'", returnStdout: true).trim()
-                    def currentCommit = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
 
-                    if (latestCommit != currentCommit) {
-                        echo "Repository has an update. Cloning..."
-                        sh "git clone ${githubRepo}"
-                    } else {
-                        echo "Repository is up to date."
-                    }
+                    echo "Repository has an update. Cloning..."
+                    sh "git clone ${githubRepo}"
                 }
             }
         }
 
-        // stage('Test') {
-        //     steps {
-        //         dir('yourrepo') {
-        //             sh pythonTestCommand
-        //         }
-        //     }
-        // }
+        stage('Install Poetry') {
+            steps {
+                script {
+                    // Install Poetry
+                    sh 'curl -sSL https://install.python-poetry.org | python3'
+
+                    // // Add Poetry to PATH
+                    sh 'echo "export PATH=$HOME/.poetry/bin:$PATH" >> $HOME/.bashrc'
+
+                }
+            }
+        }
+
+
+        stage('Test Application') {
+            steps {
+                dir('jenkins_ansible_learning/server') {
+                    sh '$HOME/.local/bin/poetry install'
+                    sh pythonTestCommand
+                }
+            }
+        }
 
         // stage('Deploy with Ansible') {
         //     steps {

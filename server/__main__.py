@@ -1,4 +1,9 @@
 from flask import Flask
+import time
+import sys
+import threading
+import os 
+import signal
 
 app = Flask(__name__)
 
@@ -6,5 +11,16 @@ app = Flask(__name__)
 def hello_world():
     return '<h1>Hello, World!</h1>'
 
+
+def stop_flask():
+    time.sleep(3)
+    os.kill(os.getpid(), signal.SIGINT)
+
+#TODO: PASS DEBUG FLAG AS ARGUMENT
 if __name__ == '__main__':
-    app.run(port=3000)
+    debug = False
+    if sys.argv[1]:
+        t = threading.Thread(target=stop_flask)
+        t.start()
+        debug = True
+    app.run(port=3000, debug=debug)
