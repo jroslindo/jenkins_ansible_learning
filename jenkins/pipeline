@@ -10,77 +10,65 @@ pipeline {
     }
 
     stages {
-        stage('Check for updates / clone repo') {
-            steps {
-                script {
-
-                    echo "Repository has an update. Cloning..."
-                    sh "git clone ${githubRepo}"
-                }
-            }
-        }
-
-        stage('Install Poetry') {
-            steps {
-                script {
-                    // Install Poetry
-                    sh 'curl -sSL https://install.python-poetry.org | python3'
-
-                    // // Add Poetry to PATH
-                    sh 'echo "export PATH=$HOME/.poetry/bin:$PATH" >> $HOME/.bashrc'
-
-                }
-            }
-        }
-
-        stage('Run Flask app') {
-            steps {
-                script {
-                    dir('jenkins_ansible_learning/server') {
-                        // Start the Flask app
-                        sh '$HOME/.local/bin/poetry install --no-root'
-                        sh pythonRun
-                        sleep 5  // Wait for the Flask app to start
-                    }
-                }
-            }
-        }
-
-        stage('test app') {
-            steps {
-                script {
-                    dir('jenkins_ansible_learning/server') {
-                        // Start the Flask app
-                        sh pythonTestCommand
-                    }
-                }
-            }
-        }
-
-
-
-
-        // stage('Test Application') {
-        //     steps {
-        //         dir('jenkins_ansible_learning/server') {
-        //             sh '$HOME/.local/bin/poetry install --no-root'
-        //             echo "Starting server"
-        //             sh pythonRun
-        //             echo "Starting test"
-        //             sh pythonTestCommand
-        //             echo "Finished"
-        //         }
-        //     }
-        // }
-
-        // stage('Deploy with Ansible') {
+        // stage('Check for updates / clone repo') {
         //     steps {
         //         script {
-        //             // Add your Ansible playbook execution command here
-        //             sh "ansible-playbook ${ansiblePlaybook}"
+
+        //             echo "Repository has an update. Cloning..."
+        //             sh "git clone ${githubRepo}"
         //         }
         //     }
         // }
+
+        // stage('Install Poetry') {
+        //     steps {
+        //         script {
+        //             // Install Poetry
+        //             sh 'curl -sSL https://install.python-poetry.org | python3'
+
+        //             // // Add Poetry to PATH
+        //             sh 'echo "export PATH=$HOME/.poetry/bin:$PATH" >> $HOME/.bashrc'
+
+        //         }
+        //     }
+        // }
+
+        // stage('Run Flask app') {
+        //     steps {
+        //         script {
+        //             dir('jenkins_ansible_learning/server') {
+        //                 sh '$HOME/.local/bin/poetry install --no-root'
+        //                 sh pythonRun
+        //                 sleep 5  // Wait for the Flask app to start
+        //             }
+        //         }
+        //     }
+        // }
+
+        // stage('test app') {
+        //     steps {
+        //         script {
+        //             dir('jenkins_ansible_learning/server') {
+        //                 sh pythonTestCommand
+        //             }
+        //         }
+        //     }
+        // }
+
+
+        stage('Deploy with Ansible') {
+            steps {
+                script {
+                    sh 'ssh-keyscan -H 172.19.0.10 >> /var/lib/jenkins/.ssh/known_hosts'
+                    try {
+                        sh 'sshpass -p 583614 ssh root@172.19.0.10 ls -l'
+                    } catch (Exception e) {
+                        echo "Failed to run SSH command: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
     }
 
     post {
