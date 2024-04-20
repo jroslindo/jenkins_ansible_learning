@@ -13,7 +13,7 @@ def hello_world():
 
 
 def stop_flask():
-    time.sleep(3)
+    time.sleep(10)
     os.kill(os.getpid(), signal.SIGINT)
 
 #TODO: PASS DEBUG FLAG AS ARGUMENT
