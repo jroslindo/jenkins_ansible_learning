@@ -31,7 +31,7 @@ def threadingApplication():
 
 
 if __name__ == '__main__':
-    thread = threading.Thread(target=threadingApplication)
-    thread.start()
-    time.sleep(5)
+    # thread = threading.Thread(target=threadingApplication)
+    # thread.start()
+    # time.sleep(5)
     unittest.main()

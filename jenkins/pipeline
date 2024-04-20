@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         githubRepo = 'https://github.com/jroslindo/jenkins_ansible_learning'
+        pythonRun         = 'nohup $HOME/.local/bin/poetry run python3 __main__.py > /dev/null 2>&1 &'
         pythonTestCommand = '$HOME/.local/bin/poetry run python3 test_example.py'
         ansiblePlaybook = '/code/playbook.yml'
         PATH = "$HOME/.poetry/bin:$PATH"
@@ -32,15 +33,45 @@ pipeline {
             }
         }
 
-
-        stage('Test Application') {
+        stage('Run Flask app') {
             steps {
-                dir('jenkins_ansible_learning/server') {
-                    sh '$HOME/.local/bin/poetry install --no-root'
-                    sh pythonTestCommand
+                script {
+                    dir('jenkins_ansible_learning/server') {
+                        // Start the Flask app
+                        sh '$HOME/.local/bin/poetry install --no-root'
+                        sh pythonRun
+                        sleep 5  // Wait for the Flask app to start
+                    }
                 }
             }
         }
+
+        stage('test app') {
+            steps {
+                script {
+                    dir('jenkins_ansible_learning/server') {
+                        // Start the Flask app
+                        sh pythonTestCommand
+                    }
+                }
+            }
+        }
+
+
+
+
+        // stage('Test Application') {
+        //     steps {
+        //         dir('jenkins_ansible_learning/server') {
+        //             sh '$HOME/.local/bin/poetry install --no-root'
+        //             echo "Starting server"
+        //             sh pythonRun
+        //             echo "Starting test"
+        //             sh pythonTestCommand
+        //             echo "Finished"
+        //         }
+        //     }
+        // }
 
         // stage('Deploy with Ansible') {
         //     steps {
