@@ -1,0 +1,35 @@
+FROM ubuntu:22.04
+
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+ENV POETRY_VERSION=1.5.1
+
+WORKDIR /code
+
+#BASIC
+RUN apt-get update && apt-get install -y iputils-ping 
+RUN apt-get install -y curl
+RUN apt-get install -y iproute2
+RUN apt-get install -y wget
+RUN apt-get install -y gnupg
+RUN apt-get install -y openssh-server
+
+
+#JENKINS INSTALLATION
+RUN wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add -
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5BA31D57EF5975CA
+RUN apt-get update
+RUN sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+RUN apt-get update
+RUN apt-get -y install jenkins
+# RUN apt-get update 
+# RUN systemctl start jenkins
+# RUN systemctl enable jenkins
+
+
+# RUN apt-get install -y openjdk-11-jdk
+# RUN systemctl enable jenkins
+# RUN systemctl enable ssh
+# RUN apt install -y default-jre
+# RUN apt install -y default-jdk
+

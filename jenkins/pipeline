@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    environment {
+        githubRepo = 'https://github.com/jroslindo/jenkins_ansible_learning.git'
+        pythonTestCommand = 'python test_example.py'
+        ansiblePlaybook = '/code/playbook.yml'
+    }
+
+    stages {
+        stage('Check for updates') {
+            steps {
+                script {
+                    def latestCommit = sh(script: "git ls-remote ${githubRepo} HEAD | awk '{ print \$1 }'", returnStdout: true).trim()
+                    def currentCommit = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
+
+                    if (latestCommit != currentCommit) {
+                        echo "Repository has an update. Cloning..."
+                        sh "git clone ${githubRepo}"
+                    } else {
+                        echo "Repository is up to date."
+                    }
+                }
+            }
+        }
+
+        // stage('Test') {
+        //     steps {
+        //         dir('yourrepo') {
+        //             sh pythonTestCommand
+        //         }
+        //     }
+        // }
+
+        // stage('Deploy with Ansible') {
+        //     steps {
+        //         script {
+        //             // Add your Ansible playbook execution command here
+        //             sh "ansible-playbook ${ansiblePlaybook}"
+        //         }
+        //     }
+        // }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

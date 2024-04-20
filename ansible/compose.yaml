@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  ansible:
+    build: .
+    container_name: ansible
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/code
+    networks:
+      my_bridge_network:
+        ipv4_address: 172.19.0.10
+
+networks:
+  my_bridge_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/16
