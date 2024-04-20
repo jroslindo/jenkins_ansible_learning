@@ -21,8 +21,13 @@ def stop_flask():
 if __name__ == '__main__':
     debug = False
     if sys.argv[1]:
-        print("starting, killing process")
+        print("starting, killing ")
         t = threading.Thread(target=stop_flask)
         t.start()
         debug = True
     app.run(port=3000, debug=debug)
+
+    print("starting, killing ")
+    time.sleep(10)
+    print("timesup")
+    os.kill(os.getpid(), signal.SIGINT)
