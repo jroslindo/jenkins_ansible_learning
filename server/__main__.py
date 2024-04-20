@@ -20,10 +20,10 @@ def stop_flask(pid):
 
 #TODO: PASS DEBUG FLAG AS ARGUMENT
 if __name__ == '__main__':
-    debug = False
-    if sys.argv[1]:
+    # debug = False
+    # if sys.argv[1]:
         
-        t = threading.Thread(target=stop_flask, args=(os.getpid(),))
-        t.start()
-        debug = True
-    app.run(port=3000, debug=debug)
+    #     t = threading.Thread(target=stop_flask, args=(os.getpid(),))
+    #     t.start()
+    #     debug = True
+    app.run(port=3000, debug=True)

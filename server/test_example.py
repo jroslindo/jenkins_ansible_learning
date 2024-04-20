@@ -25,6 +25,7 @@ class TestGetRequest(unittest.TestCase):
 def threadingApplication():
     process = subprocess.run("$HOME/.local/bin/poetry run python3 __main__.py true", shell=True)
     time.sleep(10)
+    print("Asking to kill")
     process.send_signal(signal.SIGINT)
     print("finished!!!")
 
