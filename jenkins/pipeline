@@ -61,7 +61,7 @@ pipeline {
                 script {
                     sh 'ssh-keyscan -H 172.19.0.10 >> /var/lib/jenkins/.ssh/known_hosts'
                     try {
-                        sh 'sshpass -p 583614 ssh root@172.19.0.10 ls -l'
+                        sh 'sshpass -p 583614 ssh root@172.19.0.10 ansible-playbook /code/playbook.yaml -i /code/inventory.ini'
                     } catch (Exception e) {
                         echo "Failed to run SSH command: ${e.message}"
                         currentBuild.result = 'FAILURE'

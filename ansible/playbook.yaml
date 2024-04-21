@@ -23,4 +23,7 @@
       become: yes
       args:
         chdir: /my_application/server
-      command: nohup $HOME/.local/bin/poetry run python3 /my_application/server/__main__.py > /dev/null 2>&1
+      command: "nohup $HOME/.local/bin/poetry run python3 /my_application/server/__main__.py > /dev/null 2>&1 &"
+      async: 5  # Run the command asynchronously for up to 5 seconds
+      poll: 0    # Do not wait for the command to finish
+
