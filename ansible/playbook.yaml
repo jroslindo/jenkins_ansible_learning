@@ -18,26 +18,3 @@
       command: supervisorctl restart myapp
       become: yes
       ignore_errors: yes
-
-
-    # - name: stop previous application
-    #   command: pkill -f  /root/.cache/pypoetry/virtualenvs/cap-test
-    #   become: yes
-    #   ignore_errors: yes
-
-    # - name: Start my application in port 3000 asynchronously as root
-    #   become: yes
-    #   become_user: root
-    #   args:
-    #     chdir: /my_application/server
-    #   command: "nohup $HOME/.local/bin/poetry run python3 /my_application/server/__main__.py </dev/null >/dev/null 2>&1 &"
-    #   # async: 5  # Run the command asynchronously for up to 300 seconds (5 minutes)
-    #   poll: 0     # Do not wait for the command to finish
-
-
-    # - name: Start my application in port 3000
-    #   become: yes
-    #   args:
-    #     chdir: /my_application/server
-    #   command: "timeout 1 nohup $HOME/.local/bin/poetry run python3 /my_application/server/__main__.py </dev/null >/dev/null 2>&1 &"
-    #   ignore_errors: yes
