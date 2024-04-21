@@ -14,10 +14,8 @@
         chdir: /my_application/server
       become: yes
 
-    - name: Stop the Flask application
-      become: yes
-      command: pkill -f "python3"
-
     - name: Start my application in port 3000
       become: yes
-      command: nohup $HOME/.local/bin/poetry run python3 __main__.py > /dev/null 2>&1 &
+      args:
+        chdir: /my_application/server
+      command: nohup $HOME/.local/bin/poetry run python3 /my_application/server/__main__.py > /dev/null 2>&1 &
