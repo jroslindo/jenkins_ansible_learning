@@ -26,4 +26,4 @@ if __name__ == '__main__':
     #     t = threading.Thread(target=stop_flask, args=(os.getpid(),))
     #     t.start()
     #     debug = True
-    app.run(port=3000, debug=True)
+    app.run(host='0.0.0.0', port=3000, debug=True)

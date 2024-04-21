@@ -10,50 +10,50 @@ pipeline {
     }
 
     stages {
-        // stage('Check for updates / clone repo') {
-        //     steps {
-        //         script {
+        stage('Check for updates / clone repo') {
+            steps {
+                script {
 
-        //             echo "Repository has an update. Cloning..."
-        //             sh "git clone ${githubRepo}"
-        //         }
-        //     }
-        // }
+                    echo "Repository has an update. Cloning..."
+                    sh "git clone ${githubRepo}"
+                }
+            }
+        }
 
-        // stage('Install Poetry') {
-        //     steps {
-        //         script {
-        //             // Install Poetry
-        //             sh 'curl -sSL https://install.python-poetry.org | python3'
+        stage('Install Poetry') {
+            steps {
+                script {
+                    // Install Poetry
+                    sh 'curl -sSL https://install.python-poetry.org | python3'
 
-        //             // // Add Poetry to PATH
-        //             sh 'echo "export PATH=$HOME/.poetry/bin:$PATH" >> $HOME/.bashrc'
+                    // // Add Poetry to PATH
+                    sh 'echo "export PATH=$HOME/.poetry/bin:$PATH" >> $HOME/.bashrc'
 
-        //         }
-        //     }
-        // }
+                }
+            }
+        }
 
-        // stage('Run Flask app') {
-        //     steps {
-        //         script {
-        //             dir('jenkins_ansible_learning/server') {
-        //                 sh '$HOME/.local/bin/poetry install --no-root'
-        //                 sh pythonRun
-        //                 sleep 5  // Wait for the Flask app to start
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Run Flask app') {
+            steps {
+                script {
+                    dir('jenkins_ansible_learning/server') {
+                        sh '$HOME/.local/bin/poetry install --no-root'
+                        sh pythonRun
+                        sleep 5  // Wait for the Flask app to start
+                    }
+                }
+            }
+        }
 
-        // stage('test app') {
-        //     steps {
-        //         script {
-        //             dir('jenkins_ansible_learning/server') {
-        //                 sh pythonTestCommand
-        //             }
-        //         }
-        //     }
-        // }
+        stage('test app') {
+            steps {
+                script {
+                    dir('jenkins_ansible_learning/server') {
+                        sh pythonTestCommand
+                    }
+                }
+            }
+        }
 
 
         stage('Deploy with Ansible') {

@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  application:
+    build: .
+    container_name: application
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/code
+    ports:
+      - "3000:3000"
+    networks:
+      ansible_my_bridge_network:
+        ipv4_address: 172.19.0.15
+
+networks:
+  ansible_my_bridge_network:
+    external: true
